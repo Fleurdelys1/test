@@ -54,8 +54,8 @@ class JeuVue:
     def demanderNom(self,root) :
         self.nom = simpledialog.askstring("Input","Quel est votre nom",parent=root) 
 
-    def addRectangle(self,origine, largeur, hauteur, remplissage,bordure,epaisseur): #test
-        self.items.append(Rectangle(self.canvas,origine, largeur, hauteur, remplissage,bordure,epaisseur))
+    def addRectangle(self,origine, largeur, hauteur, orientation, remplissage,bordure,epaisseur): #test
+        self.items.append(Rectangle(self.canvas,origine, largeur, hauteur, orientation, remplissage,bordure,epaisseur))
 
     def addCarre(self,origine,largeur,orientation,remplissage,bordure,epaisseur):
         self.items.append(Carre(self.canvas,origine,largeur,orientation,remplissage,bordure,epaisseur))

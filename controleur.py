@@ -39,12 +39,11 @@ class JeuControleur :
         self.zoneBlanche = ZoneBlanche(0, 0)      # on place la zone blanche      ## TODO : idem
         self.carreRouge = CarreRouge(0)        # on place le carré rouge       ## TODO : idem
         self.vue = JeuVue(root)
-        self.vecteur = Vecteur(0, 0)
-        self.rectangleBleu = [4]
+        self.rectangleBleu = []
         for i in range(0, 4) :
-            self.rectangleBleu[i] = RectangleBleu(1, i+1, 0)  # on place les rectangles bleus
+            self.rectangleBleu.append(RectangleBleu(1, i+1, 0))   # on place les rectangles bleus
             self.vecteur = Vecteur(self.rectangleBleu[i].getX (), self.rectangleBleu[i].getY())
-            self.vue.addRectangle(self.vecteur, self.rectangleBleu[i].getLargeur(), self.rectangleBleu[i].getHauteur(), "blue", "blue", 1)
+            self.vue.addRectangle(self.vecteur, self.rectangleBleu[i].getLargeur(), self.rectangleBleu[i].getHauteur(),0, "blue", "blue", 1)
         self.__defineEvent()
         
     def demarrerPartie(self) :
