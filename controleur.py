@@ -42,19 +42,21 @@ class JeuControleur :
         self.rectangleBleu = []
         for i in range(0, 4) :
             self.rectangleBleu.append(RectangleBleu(1, i+1, 0))   # on place les rectangles bleus
-            self.vecteur = Vecteur(self.rectangleBleu[i].getX (), self.rectangleBleu[i].getY())
-            self.vue.addRectangle(self.vecteur, self.rectangleBleu[i].getLargeur(), self.rectangleBleu[i].getHauteur(),0, "blue", "blue", 1)
-        self.__defineEvent()
+            self.vecteurR = Vecteur(self.rectangleBleu[i].getX(), self.rectangleBleu[i].getY())
+            self.vue.addRectangle(self.vecteurR, self.rectangleBleu[i].getLargeur(), self.rectangleBleu[i].getHauteur(),0, "blue", "blue", 1)
+        self.vecteurC = Vecteur(self.carreRouge.getX(), self.carreRouge.getY())
+        self.vue.addCarre(self.vecteurC, self.carreRouge.getArrete(),0, "red", "red", 10)
+        #self.__defineEvent()
         
     def demarrerPartie(self) :
         return self.partieDemarree
 
-    def __defineEvent(self) :
-        self.vue.setListen("<ButtonPress-1>", self.evenement())
+    #def __defineEvent(self) :
+     #   self.vue.setListen("<ButtonPress-1>", self.evenement())
 
-    def evenement(self) :
-        self.deplacementCarreRouge()
-        self.deplacementRectangleBleu()
+    #def evenement(self) :
+        #self.deplacementCarreRouge()
+        #self.deplacementRectangleBleu()
 
     def debuter(self) :
         self.partieDemarree = True
@@ -116,13 +118,14 @@ class JeuControleur :
             self.dataList[i] = self.dataList[max]
             self.dataList[max] = temp
     '''
+    '''
     def deplacementRectangleBleu(self) :
         for i in range(1, 5) :
             positionInit = self.rectangleBleu[i].getPosition() # renvoie une string de format : "100x45", "35x550"
             positionInit = positionInit.split("x") # séparation de la string, puis attribution des valeurs à la position en x et en y
             x = positionInit[0]
             y = positionInit[1]
-            '''
+    
             deplacement : 
                 axeDeplacement :
                     0 = nord-ouest
@@ -130,7 +133,7 @@ class JeuControleur :
                     2 = sud-est
                     3 = sud-ouest
                     4 = ... fonctionnalités futures
-            '''
+        
             self.rectangleBleu[i].setAxe(random.randint(0, 3))
             if self.verifierCollision() == False :                                                
                 if(self.rectangleBleu[i].getAxe() == 0) :
@@ -185,8 +188,9 @@ class JeuControleur :
             deplacement = Vecteur(x, y)                                                          
             #RectangleBleu.translate(deplacement) # effectue une translation de 1 pixel en diagonal    
             self.rectangleBleu[i].setPosition(Polygone.translate(deplacement))                                             
-            self.rectangleBleu[i].setPosition(newPosition)                                                 
-
+            self.rectangleBleu[i].setPosition(newPosition)       
+    '''                                          
+    '''
     def deplacementCarreRouge(self) : 
         posX = self.vue.root.winfo_pointerx #recoit position du curseur             
         posY = self.vue.root.winfo_pointery
@@ -197,3 +201,4 @@ class JeuControleur :
         #self.carreRouge.translate(deplacement) #deplacement du carré rouge
         self.carreRouge.setPosition(Polygone.translate(deplacement, deplacement), posY) # TODO : pas sur de ce qui se passe ici
         self.carreRouge.setPosition(newPosition)
+    '''
