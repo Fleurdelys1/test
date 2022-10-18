@@ -28,7 +28,7 @@ class CarreRouge(Polygone):
         self.axeDeplacement = axe
         
     def getPosition(self):
-        return str(self.x) + "x" + str(self.y)
+        return str(self.getX()) + "x" + str(self.getY())
 
 class RectangleBleu(Polygone):
     def __init__(self, vitesse, rectangleChiffre, axe, canvas, remplissage, bordure, epaisseur):

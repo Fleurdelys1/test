@@ -31,7 +31,6 @@ class MenuControleur:
 class JeuControleur :
     tempsDebut = 0
     tempsFin = 0
-    _vertex = []
     def __init__(self, root) :
         self.partieDemarree = False
         self.nouvellePartie = lambda : print("Nouvelle partie")    
@@ -70,7 +69,7 @@ class JeuControleur :
         carreRougePosition = self.carreRouge.getPosition()
         # On recupere les positions des rectangles blues
         for i in range(0, 4) :
-            rectangleBleuPosition = self.rectangleBleu[i].getPosition()                              
+            rectangleBleuPosition = self.rectangleBleu[i].getPosition()
             if carreRougePosition == rectangleBleuPosition :
                 self.vue.messageBox("Vous avez survécu : " + self.minuteur() + " secondes!")
                 self.tempsFin = time.time()
@@ -192,7 +191,7 @@ class JeuControleur :
             #RectangleBleu.translate(deplacement) # effectue une translation de 1 pixel en diagonal    
             self.rectangleBleu[i].setPosition(Polygone.translate(deplacement))                                             
             self.rectangleBleu[i].setPosition(newPosition)       
-                                             
+                                            
     def deplacementCarreRouge(self) : 
         posX = self.vue.root.winfo_pointerx #recoit position du curseur             
         posY = self.vue.root.winfo_pointery
@@ -200,6 +199,5 @@ class JeuControleur :
         x = str(posX)  # transforme les int en string 
         y = str(posY)
         newPosition = x + "x" + y # construit une string position
-        #self.carreRouge.translate(deplacement) #deplacement du carré rouge
         self.carreRouge.translate(deplacement) # TODO : pas sur de ce qui se passe ici
         self.carreRouge.setPosition(posX, posY)
