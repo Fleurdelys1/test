@@ -34,42 +34,43 @@ class JeuControleur :
     _vertex = []
     def __init__(self, root) :
         self.partieDemarree = False
-        self.nouvellePartie = lambda : print("Nouvelle partie")
-        self.bordureNoire = BordureNoire(0, 0)    # on place la bordure noire     ## TODO : on a mis 0
-        self.zoneBlanche = ZoneBlanche(0, 0)      # on place la zone blanche      ## TODO : idem
-        self.carreRouge = CarreRouge(0)        # on place le carré rouge       ## TODO : idem
+        self.nouvellePartie = lambda : print("Nouvelle partie")    
         self.vue = JeuVue(root)
+        self.bordureNoire = BordureNoire(0, 0, self.vue.canvas, Vecteur(450, 450), "black", "black", 3)  
+        self.zoneBlanche = ZoneBlanche(0, 0, self.vue.canvas, Vecteur(300, 300), "white", "white", 50) 
+        self.carreRouge = CarreRouge(0, self.vue.canvas, Vecteur(225, 225), "red", "red", 10)
+        self.vecteurC = Vecteur(self.carreRouge.getX(), self.carreRouge.getY())
+        
         self.rectangleBleu = []
         for i in range(0, 4) :
-            self.rectangleBleu.append(RectangleBleu(1, i+1, 0))   # on place les rectangles bleus
+            self.rectangleBleu.append(RectangleBleu(1, i+1, 0, self.vue.canvas, "blue", "blue", 10))   # on place les rectangles bleus
             self.vecteurR = Vecteur(self.rectangleBleu[i].getX(), self.rectangleBleu[i].getY())
             self.vue.addRectangle(self.vecteurR, self.rectangleBleu[i].getLargeur(), self.rectangleBleu[i].getHauteur(),0, "blue", "blue", 1)
-        self.vecteurC = Vecteur(self.carreRouge.getX(), self.carreRouge.getY())
         self.vue.addCarre(self.vecteurC, self.carreRouge.getArrete(),0, "red", "red", 10)
-        #self.__defineEvent()
+        self.__defineEvent()
         
     def demarrerPartie(self) :
         return self.partieDemarree
 
-    #def __defineEvent(self) :
-     #   self.vue.setListen("<ButtonPress-1>", self.evenement())
+    def __defineEvent(self) :
+        self.vue.setListen("<ButtonPress-1>", self.evenement())
 
-    #def evenement(self) :
-        #self.deplacementCarreRouge()
-        #self.deplacementRectangleBleu()
+    def evenement(self) :
+        self.deplacementCarreRouge()
+        self.deplacementRectangleBleu()
 
     def debuter(self) :
         self.partieDemarree = True
         self.vue.draw()
         self.tempsDebut = time.time()
         
-
+    
     def verifierCollision(self) :
         # On recupere la position du carré rouge
-        carreRougePosition = CarreRouge.getPosition()
+        carreRougePosition = self.carreRouge.getPosition()
         # On recupere les positions des rectangles blues
-        for i in range(1, 5) :
-            rectangleBleuPosition = RectangleBleu[i].getPosition                              
+        for i in range(0, 4) :
+            rectangleBleuPosition = self.rectangleBleu[i].getPosition()                              
             if carreRougePosition == rectangleBleuPosition :
                 self.vue.messageBox("Vous avez survécu : " + self.minuteur() + " secondes!")
                 self.tempsFin = time.time()
@@ -77,7 +78,7 @@ class JeuControleur :
             else :
                 continue
         return False
-
+    
     def minuteur(self) :
         sec = self.tempsFin - self.tempsDebut
         mins = sec // 60
@@ -118,14 +119,15 @@ class JeuControleur :
             self.dataList[i] = self.dataList[max]
             self.dataList[max] = temp
     '''
-    '''
+    
     def deplacementRectangleBleu(self) :
-        for i in range(1, 5) :
+        for i in range(0, 4) :
             positionInit = self.rectangleBleu[i].getPosition() # renvoie une string de format : "100x45", "35x550"
             positionInit = positionInit.split("x") # séparation de la string, puis attribution des valeurs à la position en x et en y
             x = positionInit[0]
             y = positionInit[1]
-    
+
+            '''
             deplacement : 
                 axeDeplacement :
                     0 = nord-ouest
@@ -133,7 +135,8 @@ class JeuControleur :
                     2 = sud-est
                     3 = sud-ouest
                     4 = ... fonctionnalités futures
-        
+            '''
+    
             self.rectangleBleu[i].setAxe(random.randint(0, 3))
             if self.verifierCollision() == False :                                                
                 if(self.rectangleBleu[i].getAxe() == 0) :
@@ -189,8 +192,7 @@ class JeuControleur :
             #RectangleBleu.translate(deplacement) # effectue une translation de 1 pixel en diagonal    
             self.rectangleBleu[i].setPosition(Polygone.translate(deplacement))                                             
             self.rectangleBleu[i].setPosition(newPosition)       
-    '''                                          
-    '''
+                                             
     def deplacementCarreRouge(self) : 
         posX = self.vue.root.winfo_pointerx #recoit position du curseur             
         posY = self.vue.root.winfo_pointery
@@ -199,6 +201,5 @@ class JeuControleur :
         y = str(posY)
         newPosition = x + "x" + y # construit une string position
         #self.carreRouge.translate(deplacement) #deplacement du carré rouge
-        self.carreRouge.setPosition(Polygone.translate(deplacement, deplacement), posY) # TODO : pas sur de ce qui se passe ici
-        self.carreRouge.setPosition(newPosition)
-    '''
+        self.carreRouge.translate(deplacement) # TODO : pas sur de ce qui se passe ici
+        self.carreRouge.setPosition(posX, posY)

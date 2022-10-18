@@ -1,7 +1,9 @@
 # -*- coding: utf8 -*-
+from c31Geometry2 import *
 
-class CarreRouge:
-    def __init__(self, axe):
+class CarreRouge(Polygone):
+    def __init__(self, axe, canvas, origine, remplissage, bordure, epaisseur):
+        super().__init__(canvas, origine, remplissage, bordure, epaisseur)
         self.axeDeplacement = axe
         self.arrete = 40
         self.x = 225
@@ -24,9 +26,12 @@ class CarreRouge:
     
     def setAxe(self, axe):
         self.axeDeplacement = axe
+        
+    def getPosition(self):
+        return str(self.x) + "x" + str(self.y)
 
-class RectangleBleu:
-    def __init__(self, vitesse, rectangleChiffre, axe):
+class RectangleBleu(Polygone):
+    def __init__(self, vitesse, rectangleChiffre, axe, canvas, remplissage, bordure, epaisseur):
         if rectangleChiffre == 1: #Rectangle superieur gauche
             self.largeur = 60
             self.hauteur = 60
@@ -60,6 +65,8 @@ class RectangleBleu:
 
         self.vitesse = vitesse
         self.axeDeplacement = axe
+        
+        super().__init__(canvas, Vecteur(self.x,self.y), remplissage, bordure, epaisseur)
 
  
     def getAxe(self):
@@ -89,9 +96,14 @@ class RectangleBleu:
 
     def setAxe(self, axe):
         self.axeDeplacement = axe
+        
+    def getPosition(self):
+        return str(self.x) + "x" + str(self.y)
 
-class BordureNoire():
-    def __init__(self, x, y):
+
+class BordureNoire(Polygone):
+    def __init__(self, x, y, canvas, origine, remplissage, bordure, epaisseur):
+        super().__init__(canvas, origine, remplissage, bordure, epaisseur)
         self.x = x
         self.y = y
         self.largeur = 450
@@ -109,8 +121,9 @@ class BordureNoire():
     def getY(self):
         return self.y
 
-class ZoneBlanche():
-    def __init__(self, x, y):
+class ZoneBlanche(Polygone):
+    def __init__(self, x, y, canvas, origine, remplissage, bordure, epaisseur):
+        super().__init__(canvas, origine, remplissage, bordure, epaisseur)
         self.x = x
         self.y = y
         self.largeur = 400
